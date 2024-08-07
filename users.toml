@@ -1,0 +1,25 @@
+[[user]]
+username = "player1"
+score = 0
+current_game = ""
+
+[[user]]
+username = "player2"
+score = 0
+current_game = ""
+
+[[user]]
+username = "Sanjeev"
+score = 0
+current_game = ""
+
+[[user]]
+username = "Pradeep"
+score = 0
+current_game = ""
+
+[[user]]
+username = "qwerty"
+score = 0
+current_game = ""
+
