@@ -42,6 +42,11 @@ def add_question(questions, category, difficulty, text, options, answer, feedbac
     questions.append(new_question)
     return questions
 
+def delete_question(questions, index):
+    if 0 <= index < len(questions):
+        questions.pop(index)
+    return questions
+
 def get_leaderboard(users):
     return sorted(users, key=lambda x: x['score'], reverse=True)
 
@@ -51,11 +56,20 @@ def find_user(users, username):
             return user
     return None
 
-def update_user_score(users, username, score):
+def delete_user(users, username):
+    users = [user for user in users if user['username'] != username]
+    return users
+
+def update_user_best_score(users, username, score):
     user = find_user(users, username)
     if user:
-        user['score'] = score
+        if score > user['score']:
+            user['score'] = score
     return users
+
+def get_user_best_score(users, username):
+    user = find_user(users, username)
+    return user['score'] if user else 0
 
 def start_multiplayer_game(users, user1, user2):
     game_id = f"{user1}_{user2}_{random.randint(1000, 9999)}"
