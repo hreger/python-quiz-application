@@ -97,6 +97,14 @@ username = "player1"
 score = 0
 ```
 
+## 📸 App Screenshots
+
+### Home View
+![Home View - Light Mode](Screenshots/py_app_lightmode.png)
+
+### Edit Question View
+![Home View - Dark Mode](Screenshots/py_app_darkmode.png)
+
 ## 🛠️ Development
 
 Want to contribute? Great! Please check our [contribution guidelines](CONTRIBUTING.md).

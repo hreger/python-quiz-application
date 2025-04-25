@@ -2,7 +2,7 @@
 category = "Geography"
 difficulty = "easy"
 text = "What is the capital of France?"
-options = ["Paris", "Berlin", "Madrid", "Rome"]
+options = [ "Paris", "Berlin", "Madrid", "Rome",]
 answer = "Paris"
 feedback = "Paris is the capital and largest city of France."
 
@@ -10,7 +10,7 @@ feedback = "Paris is the capital and largest city of France."
 category = "Mathematics"
 difficulty = "medium"
 text = "What is 2 + 2?"
-options = ["3", "4", "5", "6"]
+options = [ "3", "4", "5", "6",]
 answer = "4"
 feedback = "2 + 2 equals 4."
 
@@ -18,6 +18,15 @@ feedback = "2 + 2 equals 4."
 category = "Literature"
 difficulty = "hard"
 text = "Who wrote 'To Kill a Mockingbird'?"
-options = ["Harper Lee", "Mark Twain", "J.K. Rowling", "Ernest Hemingway"]
+options = [ "Harper Lee", "Mark Twain", "J.K. Rowling", "Ernest Hemingway",]
 answer = "Harper Lee"
 feedback = "'To Kill a Mockingbird' was written by Harper Lee."
+
+[[question]]
+category = "Geography"
+difficulty = "Easy"
+text = "What's the capital of India?"
+options = [ "Mumbai", "Delhi", "Bangalore", "Hyderabad",]
+answer = "Delhi"
+feedback = "Delhi is the Capital of India since Independence."
+
