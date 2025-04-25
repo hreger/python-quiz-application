@@ -7,7 +7,7 @@ class QuizApp:
         self.root = root
         self.root.title("Quiz Application")
 
-        self.dark_mode = False
+        self.dark_mode = True  # Set dark mode as default for modern indie game UI
         self.developer_mode = False
 
         self.questions = backend.load_questions('questions.toml')
@@ -46,24 +46,42 @@ class QuizApp:
 
     def toggle_developer_mode(self):
         self.developer_mode = self.dev_mode_var.get()
-        if self.developer_mode:
-            self.dark_mode = True  # Automatically enable dark mode when developer mode is enabled
-            self.dark_mode_var.set(True)
+        # Do not change dark_mode or dark_mode_var here to keep UI consistent
         self.apply_theme()
-        self.setup_main_menu()
+        # Removed call to setup_main_menu to keep UI consistent on toggle
 
     def toggle_dark_mode(self):
         self.dark_mode = self.dark_mode_var.get()
         self.apply_theme()
 
     def apply_theme(self):
-        bg_color = "#ffffff" if not self.dark_mode else "#2e2e2e"
-        fg_color = "#000000" if not self.dark_mode else "#ffffff"
+        # Indie game-like style palette
+        if not self.dark_mode:
+            bg_color = "#1e1e2f"  # dark navy
+            fg_color = "#f0f0f0"  # off-white
+            button_bg = "#6c5ce7"  # vibrant purple
+            button_fg = "#f0f0f0"  # off-white
+        else:
+            bg_color = "#121212"  # almost black
+            fg_color = "#dfe6e9"  # light gray
+            button_bg = "#00cec9"  # bright teal
+            button_fg = "#dfe6e9"  # light gray
 
         self.root.configure(bg=bg_color)
 
         for widget in self.root.winfo_children():
-            widget.configure(bg=bg_color, fg=fg_color)
+            # Apply colors and indie game font
+            try:
+                widget.configure(bg=bg_color, fg=fg_color, font=("Courier New", 12, "bold"))
+            except tk.TclError:
+                # Some widgets may not support fg/bg/font config
+                pass
+            # For buttons, apply button colors and rounded style if possible
+            if isinstance(widget, tk.Button):
+                try:
+                    widget.configure(bg=button_bg, fg=button_fg, activebackground=button_fg, activeforeground=button_bg, relief=tk.RAISED, borderwidth=3, font=("Courier New", 12, "bold"))
+                except tk.TclError:
+                    pass
 
     def start_quiz(self):
         self.clear_frame()
@@ -180,6 +198,9 @@ class QuizApp:
         self.apply_theme()
         tk.Label(self.root, text="Manage Questions", font=("Arial", 18, "bold")).pack(pady=20)
 
+        # Add Back button at the top
+        tk.Button(self.root, text="Back", command=self.setup_main_menu, width=10).pack(pady=5)
+
         if not self.developer_mode:
             messagebox.showwarning("Warning", "Developer mode is required to manage questions.")
             self.setup_main_menu()
@@ -226,7 +247,26 @@ class QuizApp:
             else:
                 messagebox.showwarning("Warning", "All fields must be filled!")
 
-        tk.Button(self.root, text="Add Question", command=add_question, width=20, height=2).pack(pady=10)
+        def submit_new_question():
+            category = category_entry.get()
+            difficulty = difficulty_entry.get()
+            text = question_entry.get()
+            options = [option.strip() for option in options_entry.get().split(',')]
+            answer = answer_entry.get()
+            feedback = feedback_entry.get()
+
+            if category and difficulty and text and options and answer:
+                self.questions = backend.add_question(self.questions, category, difficulty, text, options, answer, feedback)
+                backend.save_questions('questions.toml', self.questions)
+                messagebox.showinfo("Success", "New question submitted successfully!")
+                self.manage_questions()
+            else:
+                messagebox.showwarning("Warning", "All fields must be filled!")
+
+        # Remove the old "Submit" button and add "Submit New Question" button immediately after Feedback entry
+        submit_button = tk.Button(self.root, text="Submit New Question", command=submit_new_question, width=20, height=2)
+        submit_button.pack(pady=10)
+        
         tk.Button(self.root, text="Back to Main Menu", command=self.setup_main_menu, width=20, height=2).pack(pady=10)
 
         pass
