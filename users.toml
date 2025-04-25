@@ -4,12 +4,7 @@ score = 3
 current_game = ""
 
 [[user]]
-username = "stan"
-score = 1
-current_game = ""
-
-[[user]]
-username = "gyatt"
+username = "sanjeev"
 score = 2
 current_game = ""
 

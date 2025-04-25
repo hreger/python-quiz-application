@@ -189,36 +189,27 @@ class QuizApp:
 
         for idx, question in enumerate(self.questions):
             question_frame = tk.Frame(self.root)
-            question_frame.pack(pady=5)
-            tk.Label(question_frame, text=f"{idx+1}. {question['text']}", font=("Arial", 12)).pack(side=tk.LEFT)
-            tk.Button(question_frame, text="Delete Question", command=lambda i=idx: self.delete_question(i), width=15).pack(side=tk.RIGHT)
+            question_frame.pack(pady=5, fill=tk.X, padx=20)
 
+            tk.Label(question_frame, text=f"{idx+1}. {question['text']}", font=("Arial", 12), anchor="w").pack(side=tk.LEFT, expand=True, fill=tk.X)
+            tk.Button(question_frame, text="Edit", command=lambda i=idx: self.edit_question(i), width=10).pack(side=tk.RIGHT, padx=5)
+
+        # Add New Question Section
         tk.Label(self.root, text="Add New Question:", font=("Arial", 14)).pack(pady=10)
 
-        tk.Label(self.root, text="Category:", font=("Arial", 12)).pack(pady=5)
-        category_entry = tk.Entry(self.root, font=("Arial", 12))
-        category_entry.pack(pady=5)
+        def add_field(label):
+            tk.Label(self.root, text=label, font=("Arial", 12)).pack()
+            entry = tk.Entry(self.root, font=("Arial", 12))
+            entry.pack(pady=5)
+            return entry
 
-        tk.Label(self.root, text="Difficulty:", font=("Arial", 12)).pack(pady=5)
-        difficulty_entry = tk.Entry(self.root, font=("Arial", 12))
-        difficulty_entry.pack(pady=5)
+        category_entry = add_field("Category:")
+        difficulty_entry = add_field("Difficulty:")
+        question_entry = add_field("Question:")
+        options_entry = add_field("Options (comma-separated):")
+        answer_entry = add_field("Answer:")
+        feedback_entry = add_field("Feedback:")
 
-        tk.Label(self.root, text="Question:", font=("Arial", 12)).pack(pady=5)
-        question_entry = tk.Entry(self.root, font=("Arial", 12))
-        question_entry.pack(pady=5)
-
-        tk.Label(self.root, text="Options (comma-separated):", font=("Arial", 12)).pack(pady=5)
-        options_entry = tk.Entry(self.root, font=("Arial", 12))
-        options_entry.pack(pady=5)
-
-        tk.Label(self.root, text="Answer:", font=("Arial", 12)).pack(pady=5)
-        answer_entry = tk.Entry(self.root, font=("Arial", 12))
-        answer_entry.pack(pady=5)
-
-        tk.Label(self.root, text="Feedback:", font=("Arial", 12)).pack(pady=5)
-        feedback_entry = tk.Entry(self.root, font=("Arial", 12))
-        feedback_entry.pack(pady=5)
-       
         def add_question():
             category = category_entry.get()
             difficulty = difficulty_entry.get()
@@ -238,6 +229,49 @@ class QuizApp:
         tk.Button(self.root, text="Add Question", command=add_question, width=20, height=2).pack(pady=10)
         tk.Button(self.root, text="Back to Main Menu", command=self.setup_main_menu, width=20, height=2).pack(pady=10)
 
+        pass
+
+    def edit_question(self, index):
+        self.clear_frame()
+        self.apply_theme()
+
+        question = self.questions[index]
+
+        tk.Label(self.root, text="Edit Question", font=("Arial", 18, "bold")).pack(pady=20)
+
+        # Editable fields with pre-filled data
+        def add_field(label, value):
+            tk.Label(self.root, text=label, font=("Arial", 12)).pack()
+            entry = tk.Entry(self.root, font=("Arial", 12))
+            entry.insert(0, value)
+            entry.pack(pady=5)
+            return entry
+
+        category_entry = add_field("Category:", question['category'])
+        difficulty_entry = add_field("Difficulty:", question['difficulty'])
+        text_entry = add_field("Question:", question['text'])
+        options_entry = add_field("Options (comma-separated):", ",".join(question['options']))
+        answer_entry = add_field("Answer:", question['answer'])
+        feedback_entry = add_field("Feedback:", question['feedback'])
+
+        def submit_edit():
+            self.questions[index] = {
+                'category': category_entry.get(),
+                'difficulty': difficulty_entry.get(),
+                'text': text_entry.get(),
+                'options': [o.strip() for o in options_entry.get().split(',')],
+                'answer': answer_entry.get(),
+                'feedback': feedback_entry.get()
+            }
+            backend.save_questions('questions.toml', self.questions)
+            messagebox.showinfo("Success", "Question updated successfully!")
+            self.manage_questions()
+
+        tk.Button(self.root, text="Submit Changes", command=submit_edit, width=20, height=2).pack(pady=10)
+        tk.Button(self.root, text="Back to Manage Questions", command=self.manage_questions, width=20, height=2).pack(pady=10)
+
+        pass
+    
     def delete_question(self, index):
         self.questions = backend.delete_question(self.questions, index)
         backend.save_questions('questions.toml', self.questions)

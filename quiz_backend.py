@@ -31,16 +31,16 @@ def ask_question(question, choice):
     return question['options'][choice - 1] == question['answer']
 
 def add_question(questions, category, difficulty, text, options, answer, feedback):
-    new_question = {
+    questions.append({
         'category': category,
         'difficulty': difficulty,
         'text': text,
         'options': options,
         'answer': answer,
         'feedback': feedback
-    }
-    questions.append(new_question)
+    })
     return questions
+
 
 def delete_question(questions, index):
     if 0 <= index < len(questions):
