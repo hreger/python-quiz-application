@@ -100,10 +100,11 @@ score = 0
 ## 📸 App Screenshots
 
 ### Home View
-![Home View - Light Mode](Screenshots/py_app_lightmode.png)
+<img src="screenshots/py_app_lightmode.png" width="500"/>
+<img src="screenshots/py_app_darkmode.png" width="500"/>
 
-### Edit Question View
-![Home View - Dark Mode](Screenshots/py_app_darkmode.png)
+---
+
 
 ## 🛠️ Development
 
