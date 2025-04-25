@@ -101,6 +101,7 @@ score = 0
 
 ### Home View
 <img src="Screenshots/py_app_lightmode.jpg" width="500"/>
+hi
 <img src="Screenshots/py_app_darkmode.png" width="500"/>
 
 ---
