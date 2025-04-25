@@ -100,7 +100,7 @@ score = 0
 ## 📸 App Screenshots
 
 ### Home View
-<img src="Screenshots/py_app_lightmode.png" width="500"/>
+<img src="Screenshots/py_app_lightmode.jpg" width="500"/>
 <img src="Screenshots/py_app_darkmode.png" width="500"/>
 
 ---
